@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ManagerController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -61,3 +62,13 @@ Route::get('/revenue/daily', function () {
 Route::get('/promotions/add', function () {
     return view('promotions.add');
 })->name('promotions.add');
+
+Route::get('/order/incoming', [ManagerController::class, 'viewIncomingOrders'])->name('order.incoming');
+Route::get('/order/update', [ManagerController::class, 'viewOrderStatus'])->name('order.update');
+Route::post('/order/update/{order_id}', [ManagerController::class, 'updateOrderStatus'])->name('order.updateStatus');
+
+Route::get('/items/availability', [ManagerController::class, 'viewMenuAvailability'])->name('items.availability');
+Route::post('/items/update/{item_id}', [ManagerController::class, 'updateAvailability'])->name('items.updateAvailability');
+
+Route::get('/items/highlights', [ManagerController::class, 'viewHighlights'])->name('items.highlights');
+Route::post('/items/toggle/{item_id}', [ManagerController::class, 'toggleHighlight'])->name('items.toggleHighlight');

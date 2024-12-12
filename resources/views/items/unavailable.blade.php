@@ -6,18 +6,31 @@
 </head>
 <body class="bg-gray-50">
     <div class="max-w-7xl mx-auto py-6">
-        <h1 class="text-2xl font-bold text-gray-900 mb-4">Mark Item as Unavailable</h1>
-        <p class="text-gray-600">Select an item to mark as unavailable.</p>
-        <!-- Unavailable Item Form -->
-        <div class="bg-white shadow-sm rounded-lg mt-6 p-6">
-            <form>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Item Name</label>
-                    <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                </div>
-                <button type="submit" class="bg-orange-600 text-white px-4 py-2 rounded-md">Mark Unavailable</button>
-            </form>
-        </div>
+        <h1 class="text-2xl font-bold text-gray-900 mb-4">Menu Availability</h1>
+        <table class="min-w-full text-sm text-left">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-4 py-2">Item Name</th>
+                    <th class="px-4 py-2">Availability</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($menuItems as $item)
+                    <tr class="border-b">
+                        <td class="px-4 py-2">{{ $item->name }}</td>
+                        <td class="px-4 py-2">
+                            <form action="{{ route('items.updateAvailability', $item->item_id) }}" method="POST">
+                                @csrf
+                                <select name="is_available" onchange="this.form.submit()" class="rounded-md border-gray-300 shadow-sm">
+                                    <option value="1" {{ $item->is_available ? 'selected' : '' }}>Available</option>
+                                    <option value="0" {{ !$item->is_available ? 'selected' : '' }}>Unavailable</option>
+                                </select>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </body>
 </html>
