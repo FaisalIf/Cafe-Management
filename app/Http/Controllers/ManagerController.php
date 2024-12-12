@@ -27,7 +27,7 @@ class ManagerController extends Controller
     public function updateOrderStatus(Request $request, $order_id)
     {
         $request->validate([
-            'status' => 'required|string|in:pending,processing,delivered,cancelled', // Example statuses
+            'status' => 'required|string|in:pending,processing,delivery,delivered,cancelled', 
         ]);
 
         DB::table('orders')
@@ -40,7 +40,6 @@ class ManagerController extends Controller
     public function viewMenuAvailability()
     {
         $menuItems = DB::table('menuitems')->get();
-
         return view('items.unavailable', compact('menuItems'));
     }
 
@@ -54,7 +53,7 @@ class ManagerController extends Controller
             ->where('item_id', $item_id)
             ->update(['is_available' => $request->is_available]);
 
-        return redirect()->back()->with('success', 'Item availability updated.');
+        return redirect()->route('items.availability')->with('success', 'Item availability updated.');
     }
 
     public function viewHighlights()
@@ -69,15 +68,19 @@ class ManagerController extends Controller
 
     public function toggleHighlight(Request $request, $item_id)
     {
-        if ($request->has('highlight') && $request->highlight == true) {
+        $isHighlighted = DB::table('dailyhighlights')
+            ->where('item_id', $item_id)
+            ->exists();
+
+        if ($request->has('highlight') && $request->highlight == 1 && !$isHighlighted) {
             DB::table('dailyhighlights')->insert([
                 'item_id' => $item_id,
                 'highlight_date' => now(),
             ]);
-        } else {
+        } elseif ($request->has('highlight') && $request->highlight == 0 && $isHighlighted) {
             DB::table('dailyhighlights')->where('item_id', $item_id)->delete();
         }
 
-        return redirect()->back()->with('success', 'Highlight updated.');
+        return redirect()->route('items.highlights')->with('success', 'Highlight updated.');
     }
 }

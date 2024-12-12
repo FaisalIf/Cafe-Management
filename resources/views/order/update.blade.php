@@ -17,7 +17,7 @@
                 <tr>
                     <th class="px-4 py-2 border">Order ID</th>
                     <th class="px-4 py-2 border">Customer ID</th>
-                    <th class="px-4 py-2 border">Status</th>
+                    <th class="px-4 py-2 border">Current Status</th>
                     <th class="px-4 py-2 border">Action</th>
                 </tr>
             </thead>
@@ -30,11 +30,16 @@
                     <td class="px-4 py-2 border">
                         <form action="{{ route('order.updateStatus', $order->order_id) }}" method="POST">
                             @csrf
-                            <select name="status" onchange="this.form.submit()" class="border px-2 py-1">
-                                <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Pending</option>
-                                <option value="processing" {{ $order->status === 'processing' ? 'selected' : '' }}>Processing</option>
-                                <option value="delivery" {{ $order->status === 'delivery' ? 'selected' : '' }}>Delivery</option>
-                            </select>
+                            <div class="flex items-center space-x-2">
+                                <select name="status" id="status-{{ $order->order_id }}" class="border px-2 py-1">
+                                    <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="processing" {{ $order->status === 'processing' ? 'selected' : '' }}>Processing</option>
+                                    <option value="delivery" {{ $order->status === 'delivery' ? 'selected' : '' }}>Delivery</option>
+                                    <option value="delivered" {{ $order->status === 'delivered' ? 'selected' : '' }}>Delivered</option>
+                                    <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                </select>
+                                <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded">Update</button>
+                            </div>
                         </form>
                     </td>
                 </tr>
