@@ -14,50 +14,36 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    // Admin Login
+    // Admin and Customer Login (combined)
     public function login(Request $request)
     {
         $credentials = $request->only('username', 'password');
 
-        // Check credentials against the admin table
+        // Check if the user is an admin
         $admin = Admin::where('username', $credentials['username'])
-            ->where('password_hash', $credentials['password']) // Direct password comparison
-            ->first();
+                      ->where('password_hash', $credentials['password'])
+                      ->first();
 
         if ($admin) {
-            // Store admin info in session
             session(['admin_id' => $admin->id]);
-
-            // Redirect to the admin dashboard route
-            return redirect('/dashboard/admin')->with('success', 'Login successful!');
+            return redirect('/dashboard/admin')->with('success', 'Admin login successful!');
         }
 
-        return back()->withInput()->withErrors(['login' => 'Invalid admin username or password']);
-    }
-
-    // Customer Login
-    public function customerLogin(Request $request)
-    {
-        $credentials = $request->only('username', 'password');
-
-        // Fetch customer by username
+        // Check if the user is a customer
         $customer = DB::table('customers')->where('username', $credentials['username'])->first();
 
         if ($customer && $customer->password === $credentials['password']) {
-            // Store customer info in session
             session(['customer_id' => $customer->customer_id]);
-
-            // Redirect to the user dashboard route
-            return redirect('/dashboard/user')->with('success', 'Login successful!');
+            return redirect('/dashboard/user')->with('success', 'Customer login successful!');
         }
 
-        return back()->withErrors(['login' => 'Invalid customer username or password']);
+        return back()->withInput()->withErrors(['login' => 'Invalid username or password']);
     }
 
     // Show Register Form
     public function showRegisterForm()
     {
-        return view('auth.register');
+        return view('auth.register'); 
     }
 
     // Customer Registration
@@ -71,14 +57,14 @@ class AuthController extends Controller
                 'password' => 'required|string|min:4',
             ]);
 
-            // Use DB transaction
+            // Use DB transaction for customer registration
             DB::beginTransaction();
             
             DB::table('customers')->insert([
                 'name' => $validated['name'],
                 'username' => $validated['username'],
                 'email' => $validated['email'],
-                'password' => $validated['password'],
+                'password' => $validated['password'], 
             ]);
 
             DB::commit();
@@ -93,7 +79,6 @@ class AuthController extends Controller
     // Logout
     public function logout()
     {
-        // Clear session data
         session()->forget(['admin_id', 'customer_id']);
         return redirect()->route('login');
     }
