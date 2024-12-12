@@ -35,32 +35,32 @@
         <div class="px-4 py-6 sm:px-0">
             <div class="bg-white rounded-lg shadow-sm p-6">
                 <h2 class="text-2xl font-bold text-gray-900 mb-4">Welcome to Your Dashboard</h2>
-                <p class="text-gray-600">Explore our menu and place your orders with ease.</p>
+                <p class="text-gray-600">Explore our menu and manage your orders with ease.</p>
             </div>
         </div>
 
         <!-- Quick Actions -->
         <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 px-4 sm:px-0">
-            <div class="bg-white overflow-hidden shadow-sm rounded-lg">
+            <a href="{{ route('menu.view') }}" class="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-lg transition">
                 <div class="p-6">
                     <h3 class="text-lg font-medium text-gray-900">View Menu</h3>
                     <p class="mt-2 text-gray-600">Browse our delicious selection of food and beverages.</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="bg-white overflow-hidden shadow-sm rounded-lg">
+            <a href="{{ route('cart.view') }}" class="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-lg transition">
                 <div class="p-6">
-                    <h3 class="text-lg font-medium text-gray-900">Place Order</h3>
-                    <p class="mt-2 text-gray-600">Quick and easy ordering process.</p>
+                    <h3 class="text-lg font-medium text-gray-900">View Cart</h3>
+                    <p class="mt-2 text-gray-600">Check your selected items and proceed to checkout.</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="bg-white overflow-hidden shadow-sm rounded-lg">
+            <a href="{{ route('order.track') }}" class="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-lg transition">
                 <div class="p-6">
-                    <h3 class="text-lg font-medium text-gray-900">Order History</h3>
-                    <p class="mt-2 text-gray-600">View your past orders and favorites.</p>
+                    <h3 class="text-lg font-medium text-gray-900">Track Order</h3>
+                    <p class="mt-2 text-gray-600">View the status of your current orders.</p>
                 </div>
-            </div>
+            </a>
         </div>
     </main>
 </body>

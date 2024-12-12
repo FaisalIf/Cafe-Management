@@ -19,24 +19,39 @@ class AuthController extends Controller
     {
         $credentials = $request->only('username', 'password');
 
-        // Check credentials against customers table with direct password comparison
-        $customer = DB::table('customers')
-            ->where('username', $credentials['username'])
-            ->where('password', $credentials['password']) // Direct password comparison
+        // Check credentials against the admin table
+        $admin = Admin::where('username', $credentials['username'])
+            ->where('password_hash', $credentials['password']) // Direct password comparison
             ->first();
 
-        if ($customer) {
-            // Store customer info in session
-            session(['customer_id' => $customer->customer_id]);
-            
-            // Redirect to the user dashboard route
-            return redirect('/dashboard/user')  // Changed to match the exact route path
-                ->with('success', 'Login successful!');
+        if ($admin) {
+            // Store admin info in session
+            session(['admin_id' => $admin->id]);
+
+            // Redirect to the admin dashboard route
+            return redirect('/dashboard/admin')->with('success', 'Login successful!');
         }
 
-        return back()
-            ->withInput()
-            ->withErrors(['login' => 'Invalid username or password']);
+        return back()->withInput()->withErrors(['login' => 'Invalid admin username or password']);
+    }
+
+    // Customer Login
+    public function customerLogin(Request $request)
+    {
+        $credentials = $request->only('username', 'password');
+
+        // Fetch customer by username
+        $customer = DB::table('customers')->where('username', $credentials['username'])->first();
+
+        if ($customer && $customer->password === $credentials['password']) {
+            // Store customer info in session
+            session(['customer_id' => $customer->customer_id]);
+
+            // Redirect to the user dashboard route
+            return redirect('/dashboard/user')->with('success', 'Login successful!');
+        }
+
+        return back()->withErrors(['login' => 'Invalid customer username or password']);
     }
 
     // Show Register Form
@@ -59,7 +74,7 @@ class AuthController extends Controller
             // Use DB transaction
             DB::beginTransaction();
             
-            $customer = DB::table('customers')->insert([
+            DB::table('customers')->insert([
                 'name' => $validated['name'],
                 'username' => $validated['username'],
                 'email' => $validated['email'],
@@ -73,24 +88,6 @@ class AuthController extends Controller
             DB::rollback();
             return back()->withErrors(['error' => 'Registration failed: ' . $e->getMessage()]);
         }
-    }
-
-    // Customer Login
-    public function customerLogin(Request $request)
-    {
-        $credentials = $request->only('username', 'password');
-
-        // Fetch customer by username
-        $customer = DB::table('customers')->where('username', $credentials['username'])->first();
-
-        if ($customer && $customer->password === $credentials['password']) {
-            // Simulate customer login by storing customer ID in session
-            session(['customer_id' => $customer->id]);
-
-            return redirect()->route('dashboard.user');
-        }
-
-        return back()->withErrors(['Invalid customer username or password']);
     }
 
     // Logout
