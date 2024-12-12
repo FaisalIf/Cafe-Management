@@ -63,7 +63,7 @@ class AuthController extends Controller
                 'name' => $validated['name'],
                 'username' => $validated['username'],
                 'email' => $validated['email'],
-                'password' => bcrypt($validated['password']), // Hash the password
+                'password' => $validated['password'],
             ]);
 
             DB::commit();
