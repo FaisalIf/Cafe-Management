@@ -27,7 +27,7 @@ class ManagerController extends Controller
     public function updateOrderStatus(Request $request, $order_id)
     {
         $request->validate([
-            'status' => 'required|string|in:pending,processing,delivery,delivered,cancelled', 
+            'status' => 'required|string|in:Pending,Preparing,Ready,Delivered', 
         ]);
 
         DB::table('orders')

@@ -32,11 +32,10 @@
                             @csrf
                             <div class="flex items-center space-x-2">
                                 <select name="status" id="status-{{ $order->order_id }}" class="border px-2 py-1">
-                                    <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="processing" {{ $order->status === 'processing' ? 'selected' : '' }}>Processing</option>
-                                    <option value="delivery" {{ $order->status === 'delivery' ? 'selected' : '' }}>Delivery</option>
-                                    <option value="delivered" {{ $order->status === 'delivered' ? 'selected' : '' }}>Delivered</option>
-                                    <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                    <option value="Pending" {{ $order->status === 'Pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="Preparing" {{ $order->status === 'Preparing' ? 'selected' : '' }}>Preparing</option>
+                                    <option value="Ready" {{ $order->status === 'Ready' ? 'selected' : '' }}>Ready</option>
+                                    <option value="Delivered" {{ $order->status === 'Delivered' ? 'selected' : '' }}>Delivered</option>
                                 </select>
                                 <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded">Update</button>
                             </div>

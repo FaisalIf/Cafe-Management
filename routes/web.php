@@ -13,14 +13,12 @@ Route::get('/dashboard/user', function() {
     return view('dashboards.user');
 })->name('dashboard.user');
 
-// Authentication routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Dashboard routes
 Route::get('/dashboard/admin', [DashboardController::class, 'adminDashboard'])->name('dashboard.admin');
 
 Route::get('/menu/view', function () {
@@ -67,10 +65,8 @@ Route::get('/order/incoming', [ManagerController::class, 'viewIncomingOrders'])-
 Route::get('/order/update', [ManagerController::class, 'viewOrderStatus'])->name('order.update');
 Route::post('/order/update/{order_id}', [ManagerController::class, 'updateOrderStatus'])->name('order.updateStatus');
 
-// Availability Routes
 Route::get('/items/availability', [ManagerController::class, 'viewMenuAvailability'])->name('items.availability');
 Route::post('/items/update/{item_id}', [ManagerController::class, 'updateAvailability'])->name('items.updateAvailability');
 
-// Highlights Routes
 Route::get('/items/highlights', [ManagerController::class, 'viewHighlights'])->name('items.highlights');
 Route::post('/items/toggle/{item_id}', [ManagerController::class, 'toggleHighlight'])->name('items.toggleHighlight');
