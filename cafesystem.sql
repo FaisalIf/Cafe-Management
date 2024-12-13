@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2024 at 04:07 PM
+-- Generation Time: Dec 13, 2024 at 05:46 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -108,8 +108,10 @@ CREATE TABLE `customers` (
 INSERT INTO `customers` (`customer_id`, `name`, `email`, `username`, `password`) VALUES
 (1, 'John Doe', 'johndoe@example.com', 'Doe', '1234'),
 (2, 'Jane Smith', 'janesmith@example.com', 'Smith', '1234'),
-(3, 'admin2', 'admin2@g.com', 'admin2', 'admin2'),
-(4, 'User 1', 'User1@g.com', 'User', '1234');
+(4, 'User 1', 'User1@g.com', 'User', '1234'),
+(5, 'ff', 'f@f.com', 'ff', '1234'),
+(6, 'f1', 'f1@f.com', 'f1', '1234'),
+(8, 'f2', 'f2@g.com', 'f2', '1234');
 
 -- --------------------------------------------------------
 
@@ -276,7 +278,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `status`, `total_amount`, `payment_status`) VALUES
-(1, 1, '2024-12-01 10:15:00', 'Preparing', 6.50, 'Paid'),
+(1, 1, '2024-12-01 10:15:00', 'Pending', 6.50, 'Paid'),
 (2, 2, '2024-12-01 11:30:00', 'Pending', 7.75, 'Unpaid');
 
 -- --------------------------------------------------------
@@ -353,7 +355,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('GJWrtiq8Eh3qNFlqNb47XNShsvDUZiSl4ggEMyad', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiaUN1RUpaZFBwTHNEaVZTZXhsQkVwQjNPRHVUejFDU0JQQU5kUDg2YiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1733929642);
+('hADz79sHXDfLUh3G94ZcQ87GuAjjD9h5ynNzc6Dx', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiNjg0MTlaemI1M240T0V4WDBpSG5OelBUbEtVUm5aMzhQeE5DdmsyeiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9vcmRlci90cmFjayI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MTE6ImN1c3RvbWVyX2lkIjtpOjE7fQ==', 1734029863),
+('Kpa8WsbiD41mO0gjgveujGuGuUh9rUEcgsobqGXg', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoid0pPOUVrbEN5ZEI2dkJ6TTVwMVQzTTQ0Y0RwYnVnQUZQREszMFNDOSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9vcmRlci91cGRhdGUiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjExOiJjdXN0b21lcl9pZCI7aTo1O3M6ODoiYWRtaW5faWQiO047fQ==', 1734088388);
 
 -- --------------------------------------------------------
 
@@ -518,7 +521,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `dailyhighlights`
