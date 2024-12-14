@@ -30,14 +30,13 @@
                             {{ $item->is_available ? 'Available' : 'Unavailable' }}
                         </td>
                         <td class="py-3 px-6">
-                            <form action="{{ route('items.updateAvailability', $item->item_id) }}" method="POST">
+                            <form action="{{ route('items.availability', $item->item_id) }}" method="POST">
                                 @csrf
-                                <select name="is_available" class="form-select mr-2">
-                                    <option value="1" {{ $item->is_available ? 'selected' : '' }}>Make Available</option>
-                                    <option value="0" {{ !$item->is_available ? 'selected' : '' }}>Make Unavailable</option>
-                                </select>
-                                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                                    Update
+                                <input type="hidden" name="is_available" value="{{ $item->is_available ? 0 : 1 }}">
+                                <button type="submit" class="
+                                    {{ $item->is_available ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600' }} 
+                                    text-white px-4 py-2 rounded">
+                                    {{ $item->is_available ? 'Make Unavailable' : 'Make Available' }}
                                 </button>
                             </form>
                         </td>

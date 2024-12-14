@@ -30,14 +30,13 @@
                             {{ $item->highlight_id ? 'Highlighted' : 'Not Highlighted' }}
                         </td>
                         <td class="py-3 px-6">
-                            <form action="{{ route('items.toggleHighlight', $item->item_id) }}" method="POST">
+                            <form action="{{ route('items.highlights', $item->item_id) }}" method="POST">
                                 @csrf
-                                <select name="highlight" class="form-select mr-2">
-                                    <option value="0" {{ !$item->highlight_id ? 'selected' : '' }}>Remove Highlight</option>
-                                    <option value="1" {{ $item->highlight_id ? 'selected' : '' }}>Add Highlight</option>
-                                </select>
-                                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                                    Update
+                                <input type="hidden" name="highlight" value="{{ $item->highlight_id ? 0 : 1 }}">
+                                <button type="submit" class="
+                                    {{ $item->highlight_id ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600' }} 
+                                    text-white px-4 py-2 rounded">
+                                    {{ $item->highlight_id ? 'Remove Highlight' : 'Add Highlight' }}
                                 </button>
                             </form>
                         </td>

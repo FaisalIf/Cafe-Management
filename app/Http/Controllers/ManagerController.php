@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 
 class ManagerController extends Controller
 {
-    // Incoming Orders
+
     public function viewIncomingOrders()
     {
         $orders = DB::table('orders')
-            ->where('status', '!=', 'delivered') // Exclude delivered orders
-            ->orderBy('order_id', 'desc') // Sort in descending order
+            ->where('status', '!=', 'delivered')
+            ->orderBy('order_id', 'desc')
             ->get();
 
         return view('order.incoming', compact('orders'));
@@ -53,7 +53,7 @@ class ManagerController extends Controller
             ->where('item_id', $item_id)
             ->update(['is_available' => $request->is_available]);
 
-        return redirect()->route('items.availability')->with('success', 'Item availability updated.');
+        return redirect()->route('items.unavailable')->with('success', 'Item availability updated.');
     }
 
     public function viewHighlights()
@@ -81,6 +81,6 @@ class ManagerController extends Controller
             DB::table('dailyhighlights')->where('item_id', $item_id)->delete();
         }
 
-        return redirect()->route('items.highlights')->with('success', 'Highlight updated.');
+        return redirect()->route('items.highlight')->with('success', 'Highlight updated.');
     }
 }

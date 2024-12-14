@@ -65,8 +65,8 @@ Route::get('/order/incoming', [ManagerController::class, 'viewIncomingOrders'])-
 Route::get('/order/update', [ManagerController::class, 'viewOrderStatus'])->name('order.update');
 Route::post('/order/update/{order_id}', [ManagerController::class, 'updateOrderStatus'])->name('order.updateStatus');
 
-Route::get('/items/availability', [ManagerController::class, 'viewMenuAvailability'])->name('items.availability');
-Route::post('/items/update/{item_id}', [ManagerController::class, 'updateAvailability'])->name('items.updateAvailability');
+Route::get('/items/unavailable', [ManagerController::class, 'viewMenuAvailability'])->name('items.unavailable');
+Route::post('/items/update/{item_id}', [ManagerController::class, 'updateAvailability'])->name('items.availability');
 
-Route::get('/items/highlights', [ManagerController::class, 'viewHighlights'])->name('items.highlights');
-Route::post('/items/toggle/{item_id}', [ManagerController::class, 'toggleHighlight'])->name('items.toggleHighlight');
+Route::get('/items/highlight', [ManagerController::class, 'viewHighlights'])->name('items.highlight');
+Route::post('/items/toggle/{item_id}', [ManagerController::class, 'toggleHighlight'])->name('items.highlights');
