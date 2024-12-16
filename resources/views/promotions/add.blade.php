@@ -8,7 +8,6 @@
     <div class="max-w-7xl mx-auto py-6">
         <h1 class="text-2xl font-bold text-gray-900 mb-4">Add Promotions & Discounts</h1>
         <p class="text-gray-600">Create special promotions and discounts for customers.</p>
-        <!-- Add Promotion Form -->
         <div class="bg-white shadow-sm rounded-lg mt-6 p-6">
             <form>
                 <div class="mb-4">
