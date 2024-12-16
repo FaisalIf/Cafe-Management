@@ -70,3 +70,5 @@ Route::post('/items/update/{item_id}', [ManagerController::class, 'updateAvailab
 
 Route::get('/items/highlight', [ManagerController::class, 'viewHighlights'])->name('items.highlight');
 Route::post('/items/toggle/{item_id}', [ManagerController::class, 'toggleHighlight'])->name('items.highlights');
+
+Route::get('/dashboard/user', [DashboardController::class, 'userDashboard'])->name('dashboard.user');

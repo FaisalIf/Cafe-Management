@@ -39,28 +39,52 @@
             </div>
         </div>
 
-        <!-- Quick Actions -->
-        <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 px-4 sm:px-0">
-            <a href="{{ route('menu.view') }}" class="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-lg transition">
-                <div class="p-6">
-                    <h3 class="text-lg font-medium text-gray-900">View Menu</h3>
-                    <p class="mt-2 text-gray-600">Browse our delicious selection of food and beverages.</p>
+        <!-- Highlighted Items Section -->
+        @if(count($highlightedItems) > 0)
+        <div class="mt-8 px-4 sm:px-0">
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Today's Highlights</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach($highlightedItems as $item)
+                <div class="bg-white overflow-hidden shadow-md rounded-lg hover:shadow-xl transition">
+                    <div class="p-6">
+                        <h4 class="text-lg font-medium text-gray-900 mb-2">{{ $item->name }}</h4>
+                        <p class="text-gray-600 mb-4">{{ $item->description }}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-orange-600 font-semibold">₱{{ number_format($item->price, 2) }}</span>
+                            <span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm">Highlight of the Day</span>
+                        </div>
+                    </div>
                 </div>
-            </a>
+                @endforeach
+            </div>
+        </div>
+        @endif
 
-            <a href="{{ route('cart.view') }}" class="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-lg transition">
-                <div class="p-6">
-                    <h3 class="text-lg font-medium text-gray-900">View Cart</h3>
-                    <p class="mt-2 text-gray-600">Check your selected items and proceed to checkout.</p>
-                </div>
-            </a>
+        <!-- Quick Actions Section -->
+        <div class="mt-8 px-4 sm:px-0">
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h3>
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <a href="{{ route('menu.view') }}" class="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-lg transition">
+                    <div class="p-6">
+                        <h3 class="text-lg font-medium text-gray-900">View Menu</h3>
+                        <p class="mt-2 text-gray-600">Browse our delicious selection of food and beverages.</p>
+                    </div>
+                </a>
 
-            <a href="{{ route('order.track') }}" class="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-lg transition">
-                <div class="p-6">
-                    <h3 class="text-lg font-medium text-gray-900">Track Order</h3>
-                    <p class="mt-2 text-gray-600">View the status of your current orders.</p>
-                </div>
-            </a>
+                <a href="{{ route('cart.view') }}" class="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-lg transition">
+                    <div class="p-6">
+                        <h3 class="text-lg font-medium text-gray-900">View Cart</h3>
+                        <p class="mt-2 text-gray-600">Check your selected items and proceed to checkout.</p>
+                    </div>
+                </a>
+
+                <a href="{{ route('order.track') }}" class="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-lg transition">
+                    <div class="p-6">
+                        <h3 class="text-lg font-medium text-gray-900">Track Order</h3>
+                        <p class="mt-2 text-gray-600">View the status of your current orders.</p>
+                    </div>
+                </a>
+            </div>
         </div>
     </main>
 </body>
