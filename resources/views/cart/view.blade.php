@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard | Cafe System</title>
+    <title>Cart | Cafe System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -45,6 +45,7 @@
                     <table class="min-w-full bg-white rounded-lg overflow-hidden shadow-md">
                         <thead class="bg-gray-200 text-gray-600">
                             <tr>
+                                <th class="py-3 px-6 text-left">ID</th>
                                 <th class="py-3 px-6 text-left">Item Name</th>
                                 <th class="py-3 px-6 text-left">Quantity</th>
                                 <th class="py-3 px-6 text-left">Price Per Item</th>
@@ -52,10 +53,29 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $item_counter = 1;
+                            @endphp
+                            @forelse (Cart::session($userID)->getContent() as $item)
 
+                                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                    <td class="py-3 px-6">{{ $item_counter }}</td>
+                                    <td class="py-3 px-6">{{ $item->name }}</td>
+                                    <td class="py-3 px-6">{{ $item->quantity }}</td>
+                                    <td class="py-3 px-6">${{ $item->price }}</td>
+                                    <td class="py-3 px-6">{{ $item->getPriceSum() }}</td>
+                                </tr>
+                                @php
+                                    $item_counter++;
+                                @endphp
+
+                            @empty
                             <tr>
                                 <td colspan="4" class="text-center py-4">No orders available.</td>
                             </tr>
+
+                            @endforelse
+
                         </tbody>
                     </table>
                 </div>
@@ -70,15 +90,35 @@
                 <div class="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-lg transition">
                     <div class="p-6">
                         <h3 class="text-lg font-medium text-gray-900">Add Coupon/ Promo Code</h3>
-                        <form method="POST" action="/cart/promo" class="mt-4 space-y-4">
+                        @forelse (Cart::session($userID)->getConditions() as $condition)
+                            <div class="flex justify-between mt-4">
+                                <span class="text-gray-600">{{ $condition->getName() }}</span>
+                                <span class="text-green-900">{{ $condition->getValue() }}</span>
+                            </div>
+                            <div class="flex mt-4">
+                                <form method="POST" action="{{ route('cart.removePromoCode') }}">
+                                    @csrf
+                                    <button type="submit"
+                                        class="text-red-600 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition">
+                                        Remove
+                                    </button>
+                                </form>
+                            </div>
+
+                        @empty
+                        @if (session('error'))
+                            <div class="text-red-600">{{ session('error') }}</div>
+                        @endif
+                        <form method="POST" action="{{ route('cart.addPromoCode')}}" class="mt-4 space-y-4">
                             @csrf
-                            <input type="text" name="promo" id="promo" required
+                            <input type="text" name="code" id="code-promo" required
                                 class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition">
                             <button type="submit"
                                 class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition">
                                 Apply Promo
                             </button>
                         </form>
+                        @endforelse
                     </div>
                 </div>
 
@@ -87,21 +127,18 @@
                         <h3 class="text-lg font-medium text-gray-900">Billing</h3>
                         <div class="flex justify-between mt-4">
                             <span class="text-gray-600">Subtotal</span>
-                            <span class="text-gray-900">$2.00</span>
+                            <span class="text-gray-900">${{ Cart::session($userID)->getSubTotal() }}</span>
                         </div>
                         <div class="flex justify-between mt-4">
                             <span class="text-red-600">Promo</span>
-                            <span class="text-red-900">-$1.00</span>
+                            <span class="text-red-900">-${{ Cart::getSubTotal() - Cart::getTotal() }}</span>
                         </div>
-                        <div class="flex justify-between mt-4">
-                            <span class="text-red-600">VAT</span>
-                            <span class="text-red-900">$0.50</span>
-                        </div>
+
                         {{-- // devider --}}
                         <div class="border-t border-gray-200 mt-4"></div>
                         <div class="flex justify-between mt-4">
                             <span class="text-gray-600">Total</span>
-                            <span class="text-gray-900">$1.50</span>
+                            <span class="text-gray-900">{{ Cart::getTotal() }}</span>
                         </div>
 
                         <form method="POST" action="/cart/promo" class="mt-4 space-y-4">

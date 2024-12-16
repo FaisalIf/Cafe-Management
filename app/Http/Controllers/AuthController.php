@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Admin;
+use Auth;
+use Session;
 
 class AuthController extends Controller
 {
-    
+
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
-    
+
     public function login(Request $request)
     {
         $credentials = $request->only('username', 'password');
@@ -25,6 +27,9 @@ class AuthController extends Controller
 
         if ($admin) {
             session(['admin_id' => $admin->id]);
+            // Using Auth METHOD For Universal Login -- Fariha
+            Auth::guard('admin')->loginUsingId($admin->id);
+
             return redirect('/dashboard/admin')->with('success', 'Admin login successful!');
         }
 
@@ -32,6 +37,9 @@ class AuthController extends Controller
 
         if ($customer && $customer->password === $credentials['password']) {
             session(['customer_id' => $customer->customer_id]);
+            // Using Auth METHOD For Universal Login -- Fariha
+            Auth::guard('customer')->loginUsingId($customer->customer_id);
+
             return redirect('/dashboard/user')->with('success', 'Customer login successful!');
         }
 
@@ -40,7 +48,7 @@ class AuthController extends Controller
 
     public function showRegisterForm()
     {
-        return view('auth.register'); 
+        return view('auth.register');
     }
 
     public function register(Request $request)
@@ -54,16 +62,16 @@ class AuthController extends Controller
             ]);
 
             DB::beginTransaction();
-            
+
             DB::table('customers')->insert([
                 'name' => $validated['name'],
                 'username' => $validated['username'],
                 'email' => $validated['email'],
-                'password' => $validated['password'], 
+                'password' => $validated['password'],
             ]);
 
             DB::commit();
-            
+
             return redirect()->route('login')->with('success', 'Registration successful');
         } catch (\Exception $e) {
             DB::rollback();
@@ -74,6 +82,13 @@ class AuthController extends Controller
     public function logout()
     {
         session()->forget(['admin_id', 'customer_id']);
+        // Using Auth METHOD For Universal Logout -- Fariha
+        if (Auth::guard('admin')->check()) {
+            Auth::guard('admin')->logout();
+        } elseif (Auth::guard('customer')->check()) {
+            Auth::guard('customer')->logout();
+        }
+
         return redirect()->route('login');
     }
 }

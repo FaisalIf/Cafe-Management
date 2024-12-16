@@ -40,6 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins', // Custom guard for admins
+        ],
+        'customer' => [
+            'driver' => 'session',
+            'provider' => 'customers', // Custom guard for customers
+        ],
     ],
 
     /*
@@ -64,6 +72,15 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Auth\Admin::class, // Admin model
+        ],
+        'customers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Auth\Customer::class, // Customer model
+        ],
+
 
         // 'users' => [
         //     'driver' => 'database',

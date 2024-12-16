@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\CartController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,9 +26,26 @@ Route::get('/menu/view', function () {
     return view('menu.view');
 })->name('menu.view');
 
-Route::get('/cart/view', function () {
-    return view('cart.view');
-})->name('cart.view');
+
+Route::prefix('cart')->middleware('auth:customer')->group(function () {
+    // Demo Product Add
+    Route::get('/demoAdd', [CartController::class, 'addDemo'])->name('cart.demoAdd');
+    Route::get('/view', [CartController::class, 'viewCart'])->name('cart.view');
+    Route::post('/add', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::get('/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+    Route::post('/update', [CartController::class, 'updateCart'])->name('cart.update');
+    Route::post('/add/promo', [CartController::class, 'addPromoCode'])->name('cart.addPromoCode');
+    Route::post('/remove/promo', [CartController::class, 'removePromoCode'])->name('cart.removePromoCode');
+});
+
+Route::get('/authCheck', function() {
+    if (Auth::guard('customer')->check()) {
+        return 'Authenticated';
+    } else {
+        return 'Not Authenticated';
+    }
+});
+
 
 Route::get('/order/track', function () {
     return view('order.track');
@@ -37,21 +55,21 @@ Route::get('/menu/manage', function () {
     return view('menu.manage');
 })->name('menu.manage');
 
-Route::get('/order/incoming', function () {
-    return view('order.incoming');
-})->name('order.incoming');
+// Route::get('/order/incoming', function () {
+//     return view('order.incoming');
+// })->name('order.incoming');
 
-Route::get('/order/update', function () {
-    return view('order.update');
-})->name('order.update');
+// Route::get('/order/update', function () {
+//     return view('order.update');
+// })->name('order.update');
 
-Route::get('/items/unavailable', function () {
-    return view('items.unavailable');
-})->name('items.unavailable');
+// Route::get('/items/unavailable', function () {
+//     return view('items.unavailable');
+// })->name('items.unavailable');
 
-Route::get('/items/highlight', function () {
-    return view('items.highlight');
-})->name('items.highlight');
+// Route::get('/items/highlight', function () {
+//     return view('items.highlight');
+// })->name('items.highlight');
 
 Route::get('/revenue/daily', function () {
     return view('revenue.daily');
