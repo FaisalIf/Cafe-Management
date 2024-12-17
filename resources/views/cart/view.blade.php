@@ -38,7 +38,13 @@
 
         <!-- Order List -->
         <div class="mt-8 px-4 sm:px-0">
-            <h3 class="text-xl font-semibold text-gray-900 mb-4">Order List</h3>
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Order List</h3>
+                <a href="{{ route('cart.ClearCart') }}"
+                    class="text-orange-600 hover:text-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition">
+                    Clear List
+                </a>
+            </div>
             <div class="grid grid-cols-1 gap-6">
 
                 <div class="rounded-lg scrollbar-hidden overflow-scroll md:overflow-auto">
@@ -57,11 +63,22 @@
                                 $item_counter = 1;
                             @endphp
                             @forelse (Cart::session($userID)->getContent() as $item)
-
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
                                     <td class="py-3 px-6">{{ $item_counter }}</td>
                                     <td class="py-3 px-6">{{ $item->name }}</td>
-                                    <td class="py-3 px-6">{{ $item->quantity }}</td>
+                                    <td class="py-3 px-6">
+                                        <form method="POST" action="{{ route('cart.update') }}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $item->id }}">
+                                            <input type="number" name="quantity" value="{{ $item->quantity }}"
+                                                class="w-16 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+                                                min="0" max="100">
+                                            <button type="submit"
+                                                class="text-orange-600 hover:text-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition text-sm">
+                                                Update
+                                            </button>
+                                        </form>
+                                    </td>
                                     <td class="py-3 px-6">${{ $item->price }}</td>
                                     <td class="py-3 px-6">{{ $item->getPriceSum() }}</td>
                                 </tr>
@@ -70,10 +87,9 @@
                                 @endphp
 
                             @empty
-                            <tr>
-                                <td colspan="4" class="text-center py-4">No orders available.</td>
-                            </tr>
-
+                                <tr>
+                                    <td colspan="4" class="text-center py-4">No orders available.</td>
+                                </tr>
                             @endforelse
 
                         </tbody>
@@ -106,18 +122,18 @@
                             </div>
 
                         @empty
-                        @if (session('error'))
-                            <div class="text-red-600">{{ session('error') }}</div>
-                        @endif
-                        <form method="POST" action="{{ route('cart.addPromoCode')}}" class="mt-4 space-y-4">
-                            @csrf
-                            <input type="text" name="code" id="code-promo" required
-                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition">
-                            <button type="submit"
-                                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition">
-                                Apply Promo
-                            </button>
-                        </form>
+                            @if (session('error'))
+                                <div class="text-red-600">{{ session('error') }}</div>
+                            @endif
+                            <form method="POST" action="{{ route('cart.addPromoCode') }}" class="mt-4 space-y-4">
+                                @csrf
+                                <input type="text" name="code" id="code-promo" required
+                                    class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition">
+                                <button type="submit"
+                                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition">
+                                    Apply Promo
+                                </button>
+                            </form>
                         @endforelse
                     </div>
                 </div>
@@ -141,14 +157,20 @@
                             <span class="text-gray-900">{{ Cart::getTotal() }}</span>
                         </div>
 
-                        <form method="POST" action="/cart/promo" class="mt-4 space-y-4">
-                            @csrf
 
-                            <button type="submit"
-                                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition">
-                                Order Now
-                            </button>
-                        </form>
+                        @if (Cart::getTotal() != 0)
+                            <div class="w-full flex">
+                                <a href="{{ route('cart.checkout') }} "
+                                    class="w-1/2 flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition mt-4 space-y-4 mr-2 text-center">
+                                    Pay Now
+                                </a>
+
+                                <a href="{{ route('cart.OrderWithoutPayment') }}"
+                                    class="w-1/2 flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition mt-4 space-y-4 text-center">
+                                    Order without Payment
+                                </a>
+                            </div>
+                        @endif
 
 
                     </div>

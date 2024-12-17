@@ -32,10 +32,13 @@ Route::prefix('cart')->middleware('auth:customer')->group(function () {
     Route::get('/demoAdd', [CartController::class, 'addDemo'])->name('cart.demoAdd');
     Route::get('/view', [CartController::class, 'viewCart'])->name('cart.view');
     Route::post('/add', [CartController::class, 'addToCart'])->name('cart.add');
-    Route::get('/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+    Route::get('/remove', [CartController::class, 'ClearCart'])->name('cart.ClearCart');
     Route::post('/update', [CartController::class, 'updateCart'])->name('cart.update');
     Route::post('/add/promo', [CartController::class, 'addPromoCode'])->name('cart.addPromoCode');
     Route::post('/remove/promo', [CartController::class, 'removePromoCode'])->name('cart.removePromoCode');
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+    Route::post('/payment', [CartController::class, 'payment'])->name('cart.payment');
+    Route::get('/PlaceOrderNow', [CartController::class, 'OrderWithoutPayment'])->name('cart.OrderWithoutPayment');
 });
 
 Route::get('/authCheck', function() {
