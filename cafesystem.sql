@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2024 at 05:46 PM
+-- Generation Time: Jan 23, 2025 at 08:38 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -130,8 +130,9 @@ CREATE TABLE `dailyhighlights` (
 --
 
 INSERT INTO `dailyhighlights` (`highlight_id`, `item_id`, `highlight_date`) VALUES
-(5, 3, '2024-12-01'),
-(6, 2, '2024-12-01');
+(9, 1, '2024-12-14'),
+(11, 2, '2024-12-16'),
+(13, 3, '2025-01-06');
 
 -- --------------------------------------------------------
 
@@ -194,6 +195,7 @@ CREATE TABLE `menuitems` (
   `item_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
+  `category` varchar(255) DEFAULT NULL,
   `price` decimal(10,2) NOT NULL,
   `category_id` int(11) DEFAULT NULL,
   `photo_url` varchar(255) DEFAULT NULL,
@@ -205,12 +207,13 @@ CREATE TABLE `menuitems` (
 -- Dumping data for table `menuitems`
 --
 
-INSERT INTO `menuitems` (`item_id`, `name`, `description`, `price`, `category_id`, `photo_url`, `popularity_score`, `is_available`) VALUES
-(1, 'Espresso', 'Rich and bold espresso shot', 2.50, 1, 'photos/espresso.jpg', 50, 1),
-(2, 'Cappuccino', 'Espresso with steamed milk foam', 3.50, 1, 'photos/cappuccino.jpg', 80, 1),
-(3, 'Chocolate Chip Cookie', 'Crispy and gooey cookie with chocolate chips', 1.75, 2, 'photos/cookie.jpg', 100, 1),
-(4, 'Blueberry Muffin', 'Soft muffin with juicy blueberries', 2.00, 2, 'photos/muffin.jpg', 90, 1),
-(5, 'Cheesecake', 'Creamy cheesecake with a buttery crust', 4.50, 3, 'photos/cheesecake.jpg', 60, 1);
+INSERT INTO `menuitems` (`item_id`, `name`, `description`, `category`, `price`, `category_id`, `photo_url`, `popularity_score`, `is_available`) VALUES
+(1, 'Espresso', 'Rich and bold espresso shot', 'Drinks', 2.50, 1, 'images/menuitems/espresso.webp', 50, 0),
+(2, 'Cappuccino', 'Espresso with steamed milk foam', 'Drinks', 3.50, 1, 'images/menuitems/cappuccino.jpeg', 80, 1),
+(3, 'Chocolate Chip Cookie', 'Crispy and gooey cookie with chocolate chips', 'Snacks', 1.75, 2, 'images/menuitems/cookie.jpeg', 100, 1),
+(4, 'Blueberry Muffin', 'Soft muffin with juicy blueberries', 'Dessert', 2.00, 2, 'images/menuitems/muffin.jpg', 90, 1),
+(5, 'Cheesecake', 'Creamy cheesecake with a buttery crust', 'Dessert', 4.50, 3, 'images/menuitems/cheesecake.jpg', 60, 1),
+(6, 'Thai Soup', 'Hot and relaxing Thai Soup', 'Appetizer', 5.00, NULL, 'images/menuitems/thaisoup.jpg', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -256,7 +259,9 @@ INSERT INTO `orderitems` (`order_item_id`, `order_id`, `item_id`, `quantity`, `p
 (5, 1, 1, 1, 2.50),
 (6, 1, 3, 2, 1.75),
 (7, 2, 2, 1, 3.50),
-(8, 2, 5, 1, 4.50);
+(8, 2, 5, 1, 4.50),
+(9, 3, 4, 2, 2.00),
+(10, 3, 2, 1, 3.50);
 
 -- --------------------------------------------------------
 
@@ -278,8 +283,9 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `status`, `total_amount`, `payment_status`) VALUES
-(1, 1, '2024-12-01 10:15:00', 'Pending', 6.50, 'Paid'),
-(2, 2, '2024-12-01 11:30:00', 'Pending', 7.75, 'Unpaid');
+(1, 1, '2024-12-01 10:15:00', 'Ready', 6.50, 'Paid'),
+(2, 2, '2024-12-01 11:30:00', 'Pending', 7.75, 'Unpaid'),
+(3, 5, '2025-01-24 00:23:40', 'Pending', 7.50, 'Unpaid');
 
 -- --------------------------------------------------------
 
@@ -355,8 +361,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('hADz79sHXDfLUh3G94ZcQ87GuAjjD9h5ynNzc6Dx', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiNjg0MTlaemI1M240T0V4WDBpSG5OelBUbEtVUm5aMzhQeE5DdmsyeiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9vcmRlci90cmFjayI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MTE6ImN1c3RvbWVyX2lkIjtpOjE7fQ==', 1734029863),
-('Kpa8WsbiD41mO0gjgveujGuGuUh9rUEcgsobqGXg', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoid0pPOUVrbEN5ZEI2dkJ6TTVwMVQzTTQ0Y0RwYnVnQUZQREszMFNDOSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9vcmRlci91cGRhdGUiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjExOiJjdXN0b21lcl9pZCI7aTo1O3M6ODoiYWRtaW5faWQiO047fQ==', 1734088388);
+('dpTBxnAbLvVek95aFS0qGDwy1Cq0mLoaSYk4J24h', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiU054SkVEWlZocmROdEdMRFltOFJwM2szVGdkdDhoYjA3OXE4bkxQTiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9tZW51L2FkZCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MTI6IjVfY2FydF9pdGVtcyI7YTowOnt9czoxMjoiMV9jYXJ0X2l0ZW1zIjthOjA6e31zOjg6ImFkbWluX2lkIjtOO30=', 1737661058);
 
 -- --------------------------------------------------------
 
@@ -527,7 +532,7 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `dailyhighlights`
 --
 ALTER TABLE `dailyhighlights`
-  MODIFY `highlight_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `highlight_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -545,7 +550,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `menuitems`
 --
 ALTER TABLE `menuitems`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -557,13 +562,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orderitems`
 --
 ALTER TABLE `orderitems`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `promotions`

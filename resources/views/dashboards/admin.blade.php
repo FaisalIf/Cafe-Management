@@ -76,12 +76,12 @@
                 </div>
             </a>
 
-            <a href="{{ route('revenue.daily') }}" class="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-md transition">
+            <!-- <a href="{{ route('revenue.daily') }}" class="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-md transition">
                 <div class="p-6">
                     <h3 class="text-lg font-medium text-gray-900">Display Daily Revenue</h3>
                     <p class="mt-2 text-gray-600">View daily sales revenue.</p>
                 </div>
-            </a>
+            </a> -->
 
             <a href="{{ route('promotions.add') }}" class="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-md transition">
                 <div class="p-6">

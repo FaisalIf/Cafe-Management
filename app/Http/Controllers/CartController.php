@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Cart;
 use App\Models\User;
 use Auth;
-use App\Models\ManuItems;
+use App\Models\MenuItems;
 use App\Models\Promotions;
 use App\Models\Orders;
 use App\Models\OrderItems;
@@ -23,25 +23,29 @@ class CartController extends Controller
         return view('cart.view',['userID' => $userID]);
     }
 
-    public function addToCart(Request $request) {
-
-
+    public function addToCart(Request $request)
+    {
         $userID = Auth::guard('customer')->user()->customer_id;
-        $Product = ManuItems::find($request->id);
-        Cart::session($userID)->add(array(
-                'id' => $Product->id,
-                'name' => $Product->name,
-                'price' => $Product->price,
-                'quantity' => $request->quantity,
-                'attributes' => array(),
-                'associatedModel' => $Product
-        ));
 
-        return redirect()->back();
+        // Use 'item_id' instead of 'id' to find the menu item
+        $Product = MenuItems::where('item_id', $request->id)->first();
 
+        if (!$Product) {
+        return redirect()->back()->with('error', 'Item not found!');
+        }
 
+        // Add the item to the cart
+        Cart::session($userID)->add([
+            'id' => $Product->item_id, // Use 'item_id' as the ID
+            'name' => $Product->name,
+            'price' => $Product->price,
+            'quantity' => $request->quantity,
+            'attributes' => [],
+            'associatedModel' => $Product,
+        ]);
 
-    }
+        return redirect()->back()->with('success', 'Item added to cart!');
+}
 
     public function ClearCart() {
 
@@ -100,7 +104,7 @@ class CartController extends Controller
     public function addDemo() {
 
         $userID = Auth::guard('customer')->user()->customer_id;
-        $Product = ManuItems::inRandomOrder()->first();
+        $Product = MenuItems::inRandomOrder()->first();
 
 
         Cart::session($userID)->add([

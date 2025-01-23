@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ManagerController extends Controller
 {
-
     public function viewIncomingOrders()
     {
         $orders = DB::table('orders')
@@ -82,5 +82,17 @@ class ManagerController extends Controller
         }
 
         return redirect()->route('items.highlight')->with('success', 'Highlight updated.');
+    }
+
+    public function trackOrder(Request $request)
+    {
+        $customer_id = Auth::guard('customer')->user()->customer_id;
+
+        $orders = DB::table('orders')
+            ->where('customer_id', $customer_id)
+            ->orderBy('order_date', 'desc')
+            ->get();
+
+        return view('order.track', compact('orders'));
     }
 }
