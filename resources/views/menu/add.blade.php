@@ -85,6 +85,11 @@
                                 <option value="0">Not Available</option>
                             </select>
                         </div>
+                        <!-- Popularity Score -->
+                        <div>
+                            <label for="popularity_score" class="block text-sm font-medium text-gray-700">Popularity Score</label>
+                            <input type="number" name="popularity_score" id="popularity_score" value="0" min="0" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition">
+                        </div>
                     </div>
                     <!-- Submit Button -->
                     <div class="mt-6">

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManagerController;
@@ -8,9 +9,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\MenuController;
 
 // Public Routes
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/dashboard/user', function() {
     return view('dashboards.user');

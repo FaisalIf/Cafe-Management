@@ -51,7 +51,7 @@
                 <h2 class="text-2xl font-bold text-gray-900 mb-4">Edit Menu Item</h2>
                 <form action="{{ route('menu.update', $item->item_id) }}" method="POST">
                     @csrf
-                    @method('PUT') <!-- Add this line to spoof the PUT method -->
+                    @method('PUT')
                     <div class="grid grid-cols-1 gap-6">
                         <!-- Name -->
                         <div>
@@ -85,6 +85,11 @@
                                 <option value="1" {{ $item->is_available ? 'selected' : '' }}>Available</option>
                                 <option value="0" {{ !$item->is_available ? 'selected' : '' }}>Not Available</option>
                             </select>
+                        </div>
+                        <!-- Popularity Score -->
+                        <div>
+                            <label for="popularity_score" class="block text-sm font-medium text-gray-700">Popularity Score</label>
+                            <input type="number" name="popularity_score" id="popularity_score" value="{{ $item->popularity_score }}" min="0" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition">
                         </div>
                     </div>
                     <!-- Submit Button -->

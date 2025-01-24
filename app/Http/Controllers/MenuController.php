@@ -18,7 +18,11 @@ class MenuController extends Controller
         }
 
         if (in_array($sortBy, ['name', 'price', 'popularity_score'])) {
-            $query->orderBy($sortBy);
+            if ($sortBy === 'popularity_score') {
+                $query->orderByDesc($sortBy);
+            } else {
+                $query->orderBy($sortBy);
+            }
         }
 
         $menuItems = $query->get();
@@ -47,6 +51,7 @@ class MenuController extends Controller
             'price' => 'required|numeric|min:0',
             'photo_url' => 'nullable|string|max:255',
             'is_available' => 'required|boolean',
+            'popularity_score' => 'nullable|numeric|min:0',
         ]);
 
         MenuItems::create([
@@ -56,6 +61,7 @@ class MenuController extends Controller
             'price' => $request->price,
             'photo_url' => $request->photo_url,
             'is_available' => $request->is_available,
+            'popularity_score' => $request->popularity_score ?? 0,
         ]);
 
         return redirect()->route('menu.manage')->with('success', 'Menu item added successfully!');
@@ -76,6 +82,7 @@ class MenuController extends Controller
             'price' => 'required|numeric|min:0',
             'photo_url' => 'nullable|string|max:255',
             'is_available' => 'required|boolean',
+            'popularity_score' => 'nullable|numeric|min:0',
         ]);
 
         $item = MenuItems::findOrFail($item_id);
@@ -86,6 +93,7 @@ class MenuController extends Controller
             'price' => $request->price,
             'photo_url' => $request->photo_url,
             'is_available' => $request->is_available,
+            'popularity_score' => $request->popularity_score ?? $item->popularity_score,
         ]);
 
         return redirect()->route('menu.manage')->with('success', 'Menu item updated successfully!');
